@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace WineParser.Core.Interfaces
 {
-    public interface IParser
+    public interface IDataSaver
     {
-        ILinkProvider LinkProvider { get; }
-        IPageParser PageParser { get; }
-        bool CanParse(string url);
-        
+        Task SaveDataAsync(string data);
+        Task FinalizeSaveDataAsync();
     }
 }

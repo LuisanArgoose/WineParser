@@ -11,17 +11,14 @@ namespace WineParser.Core.Servises
 {
     public class ParserManager
     {
-        private readonly SemaphoreSlim _semaphore;
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(3);
         private readonly ConcurrentQueue<(IParser, string)> _parseQueue = new();
-        private readonly List<IParser> _parsers = new();
-
-        public ParserManager(int maxThreads)
+        private readonly List<IParser> _parsers;
+        private readonly IDataSaver _dataSaver;
+        public ParserManager(IEnumerable<IParser> parsers, IDataSaver dataSaver)
         {
-            _semaphore = new SemaphoreSlim(maxThreads);
-        }
-        public void AddParser(IParser parser)
-        {
-            _parsers.Add(parser);
+            _parsers = parsers.ToList();
+            _dataSaver = dataSaver;
         }
 
         public async Task AddUrlForParsingAsync(string url)
@@ -68,7 +65,7 @@ namespace WineParser.Core.Servises
                     try
                     {
                         var data = await parser.PageParser.ParsePageAsync(link);
-                        await SaveDataAsync(data);
+                        await _dataSaver.SaveDataAsync(data);
                     }
                     catch (Exception ex)
                     {
@@ -77,13 +74,11 @@ namespace WineParser.Core.Servises
                 }
                 finally
                 {
+                    await _dataSaver.FinalizeSaveDataAsync();
                     _semaphore.Release();
                 }
             }
         }
-        protected virtual Task SaveDataAsync(string data)
-        {
-            return File.AppendAllTextAsync("products.csv", data + "\n");
-        }
+
     }
 }

@@ -22,5 +22,6 @@ namespace WineParser.Core.Sites.simplewine.ru
         {
             return url.Contains("simplewine.ru/catalog/");
         }
+    
     }
 }

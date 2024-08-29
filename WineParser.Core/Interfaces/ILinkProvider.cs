@@ -9,5 +9,6 @@ namespace WineParser.Core.Interfaces
     public interface ILinkProvider
     {
         Task<List<string>> GetLinksAsync(string url);
+        int CityId { get; set; }
     }
 }
