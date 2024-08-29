@@ -1,1 +1,1 @@
-# WineParser - многопоточный парсер для сайта simplewine.ru
+# WineParser - многопоточный парсер на C# для сайта simplewine.ru
