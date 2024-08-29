@@ -1,4 +1,4 @@
-namespace WineParser.Models
+namespace WineParser.Web.Models
 {
     public class ErrorViewModel
     {

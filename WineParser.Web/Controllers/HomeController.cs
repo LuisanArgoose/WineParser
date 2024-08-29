@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using WineParser.Models;
+using WineParser.Web.Models;
 
-namespace WineParser.Controllers
+namespace WineParser.Web.Controllers
 {
     public class HomeController : Controller
     {
